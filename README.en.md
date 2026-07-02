@@ -89,6 +89,23 @@ python adx_diagnose.py --cluster https://<name>.<region>.kusto.windows.net \
 
 ---
 
+## 📤 Output & Saving
+
+| Mode | Result location |
+|---|---|
+| `--format html` (default) | Saves an **HTML report file** to `--out` (default `adx_report.html`) + a **baseline snapshot JSON** to `--history-dir` (default `./adx_diagnose_history`) for regression comparison (excluded for `--demo` · `--no-history`) |
+| `--format json` | Prints the diagnostic result JSON to **stdout** (for SRE Agent / MCP). It **does not save a file**, nor does it generate the HTML/snapshot. |
+
+> [!TIP]
+> To persist the `--format json` result to a file, redirect it:
+> ```powershell
+> python adx_diagnose.py --demo --format json > result.json
+> ```
+
+JSON schema (summary): `{ "tool", "target", "health_score", "findings": [ { "severity", "category", "title", "detail", "recommendation" } ] }` — secret/PII/prompt-injection are masked automatically.
+
+---
+
 ## What It Detects
 Slow queries (duration/CPU/memory), **cold-cache dependence** (hot-cache misses), **excessive extent scanning** (weak filtering), cache-utilization saturation, **query throttling** · capacity consumption, **high query duration (QueryDuration)** (cross-validated with engine-tier slow queries — reported as informational when both fire, to avoid double-penalizing the score), **ingestion-utilization (IngestionUtilization) saturation**, ingestion latency/failures, too many small extents (merge delay), and the **root-cause correlation** that ties these together.
 
