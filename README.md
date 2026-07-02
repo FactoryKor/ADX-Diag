@@ -89,6 +89,23 @@ python adx_diagnose.py --cluster https://<name>.<region>.kusto.windows.net \
 
 ---
 
+## 📤 출력 & 저장
+
+| 모드 | 결과 위치 |
+|---|---|
+| `--format html` (기본) | `--out` 경로에 **HTML 리포트 파일** 저장(기본 `adx_report.html`) + `--history-dir`(기본 `./adx_diagnose_history`)에 **Baseline 스냅샷 JSON** 저장(회귀 비교용; `--demo`·`--no-history` 제외) |
+| `--format json` | 진단 결과 JSON을 **표준출력(stdout)** 으로 출력(SRE Agent / MCP 연동용). **파일로 저장하지 않으며** HTML·스냅샷도 생성하지 않습니다. |
+
+> [!TIP]
+> `--format json` 결과를 파일로 남기려면 리다이렉트하세요:
+> ```powershell
+> python adx_diagnose.py --demo --format json > result.json
+> ```
+
+JSON 스키마(요약): `{ "tool", "target", "health_score", "findings": [ { "severity", "category", "title", "detail", "recommendation" } ] }` — secret/PII/prompt-injection은 자동 마스킹됩니다.
+
+---
+
 ## 무엇을 잡아내나
 느린 쿼리(지속/CPU/메모리), **콜드 캐시 의존**(핫캐시 미스), **익스텐트 과다 스캔**(약한 필터링), 캐시 사용률 포화, **쿼리 스로틀**·용량 소모, **쿼리 지속시간(QueryDuration) 높음**(엔진 계층 느린 쿼리와 교차 검증 — 함께 뜨면 이중 감점 방지를 위해 정보성으로 표기), **인제스트 사용률(IngestionUtilization) 포화**, 인제스트 지연/실패, 작은 익스텐트 과다(머지 지연), 그리고 이들을 묶는 **근본원인 상관**.
 
