@@ -102,7 +102,7 @@ python adx_diagnose.py --cluster https://<name>.<region>.kusto.windows.net \
 > python adx_diagnose.py --demo --format json > result.json
 > ```
 
-JSON schema (summary): `{ "tool", "target", "health_score", "findings": [ { "severity", "category", "title", "detail", "recommendation" } ] }` — secret/PII/prompt-injection are masked automatically.
+JSON schema (summary): `{ "tool", "target", "health_score", "worst_severity", "severity_counts", "summary", "findings": [ { "severity", "category", "title", "detail", "recommendation" } ], "recommended_actions": [ { "severity", "category", "title", "action" } ] }` — `summary` is a one-line NL summary, `recommended_actions` is a prioritized action list (for SRE Agent). secret/PII/prompt-injection are masked automatically.
 
 ---
 
