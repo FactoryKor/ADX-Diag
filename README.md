@@ -102,7 +102,7 @@ python adx_diagnose.py --cluster https://<name>.<region>.kusto.windows.net \
 > python adx_diagnose.py --demo --format json > result.json
 > ```
 
-JSON 스키마(요약): `{ "tool", "target", "health_score", "findings": [ { "severity", "category", "title", "detail", "recommendation" } ] }` — secret/PII/prompt-injection은 자동 마스킹됩니다.
+JSON 스키마(요약): `{ "tool", "target", "health_score", "worst_severity", "severity_counts", "summary", "findings": [ { "severity", "category", "title", "detail", "recommendation" } ], "recommended_actions": [ { "severity", "category", "title", "action" } ] }` — `summary`는 자연어 한 줄 요약, `recommended_actions`는 우선순위 조치 목록(SRE Agent용). secret/PII/prompt-injection은 자동 마스킹됩니다.
 
 ---
 
